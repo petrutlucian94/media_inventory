@@ -9,8 +9,6 @@ import media_inventory
 
 LOG = logging.getLogger('media_inventory')
 
-_schema_cache = {}
-
 
 def get_abs_path(path):
     # Accepts paths relative to the project location
@@ -19,11 +17,7 @@ def get_abs_path(path):
     return os.path.join(base_path, path)
 
 
-def _get_schema(schema_path):
-    schema = _schema_cache.get(schema_path)
-    if schema:
-        return schema
-
+def get_schema(schema_path):
     LOG.debug("Loading XML schema %s" % schema_path)
     try:
         with open(schema_path, 'r') as f:
@@ -35,12 +29,11 @@ def _get_schema(schema_path):
         LOG.exception("Failed to load XML schema: %s")
         raise
 
-    _schema_cache[schema_path] = schema
     return schema
 
 
 def validate_schema(str_xml, schema_path):
-    schema = _get_schema(schema_path)
+    schema = get_schema(schema_path)
     schema.assertValid(etree.parse(StringIO(str_xml)))
 
 

@@ -9,13 +9,12 @@ LOG = logging.getLogger('media_inventory')
 
 
 class BaseModel(object):
-    _schema_location = None
+    _schema = None
 
     def __init__(self, str_xml):
-        if self._schema_location:
-            utils.validate_schema(str_xml, self._schema_location)
+        parser = etree.XMLParser(schema=self._schema)
 
-        self._xml = etree.parse(StringIO(str_xml))
+        self._xml = etree.parse(StringIO(str_xml), parser)
         self._root = self._xml.getroot()
 
         if not self.id:
