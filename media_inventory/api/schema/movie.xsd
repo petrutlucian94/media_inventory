@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="itemNameType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="lang" type="xs:token" default="en"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="movieType">
+        <xs:sequence>
+            <xs:element name="name" type="itemNameType"
+                        maxOccurs="unbounded"/>
+            <xs:element name="size" type="xs:float"/>
+            <xs:element name="rating" type="xs:positiveInteger"
+                        minOccurs="0"/>
+            <xs:element name="seen" type="xs:boolean"
+                        minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="movie" type="movieType"/>
+</xs:schema>
