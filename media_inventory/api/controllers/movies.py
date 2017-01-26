@@ -36,7 +36,8 @@ class MoviesController(base_controller.BaseAPIController):
 
     def get_movie(self, movie_id):
         LOG.debug("Got request to fetch movie %s" % movie_id)
-        return self._db_api.query('/inventory/movies/movie[@id="%s"]' % movie_id)
+        return self._db_api.query(
+            '/inventory/movies/movie[@id="%s"]' % movie_id)
 
     def _get_movie_from_request(self):
         self.validate_request(schema_name='movie')
@@ -74,4 +75,4 @@ class MoviesController(base_controller.BaseAPIController):
 
     def _ensure_root_node_exists(self):
         if not self.get_movies():
-            self._db_api.insert('<movies></movies>', '/inventory')       
+            self._db_api.insert('<movies></movies>', '/inventory')
